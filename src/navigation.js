@@ -4,7 +4,16 @@
 /* funcionalidades */
 
 searchFormBtn.addEventListener('click', () => {
-    location.hash = "#search=";
+
+    let search = searchFormInput.value;
+
+    //search = search.replaceAll(" ", "-");
+
+
+    location.hash = `#search=${search}`;
+
+
+
 });
 
 trendingBtn.addEventListener('click', () => {
@@ -21,15 +30,15 @@ window.addEventListener('hashchange',navigator , false);
 
 function navigator() {
     if (location.hash.startsWith("#trends")) {
-        trendsPage()
+        trendsPage();
     } else if (location.hash.startsWith("#search=")) {
-        searchPage()
+        searchPage();
     } else if (location.hash.startsWith("#movie=")) {
-        movieDetailsPage()
+        movieDetailsPage();
     } else if (location.hash.startsWith("#genre=")) {
-        categoriesPage()
+        categoriesPage();
     } else {
-        homePage()
+        homePage();
     }
 }
 
@@ -37,8 +46,8 @@ function navigator() {
 
 function homePage() {
 
-    RenderTrendsDays();
-    RenderGenres();
+    RenderTrendsDay(trendingMoviesPreviewList,'/trending/movie/day');
+    RenderGenresList();
 
     headerSection.classList.remove('header-container--long');
     headerSection.style.background = '';
@@ -83,7 +92,7 @@ function categoriesPage() {
 
 
 
-    renderSearchMovies(`&with_genres=${idGenre}`)
+    renderGenresMovies("/discover/movie",`&with_genres=${idGenre}`)
 
 }
 
@@ -118,6 +127,10 @@ function searchPage() {
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
 
+    const urlHashSearch = location.hash.split('=')[1];
+
+
+    renderGenresMovies ('/search/movie',`&query=${urlHashSearch}`);
 }
 
 function trendsPage() {
@@ -136,6 +149,9 @@ function trendsPage() {
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
 
+
+
+    RenderTrendsDay(genericSection,'/trending/movie/day');
 
 }
 

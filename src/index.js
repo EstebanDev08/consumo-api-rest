@@ -1,24 +1,23 @@
 const API_key = '89a6dd4a75651354ac25c6fb617c4f3a';
 
-async function consultaFetch(url, params = ''){
+async function consultaFetch(endPoint, params = ''){
 
     params = '' || params;
-    const  res = await fetch(`${url}?api_key=${API_key}&language=es-co${params}`);
+    const  res = await fetch(`https://api.themoviedb.org/3${endPoint}?api_key=${API_key}&language=es-co${params}`);
 
     return   await res.json();
 
     }
 
-    function RenderTrendsDays(){
+    function RenderTrendsDay(nodoHtml, endPoint){
 
-        const API_URL_TREND_DAY = 'https://api.themoviedb.org/3/trending/movie/day';
+        const API_URL_TREND_DAY = '/trending/movie/day';
 
-        consultaFetch(API_URL_TREND_DAY)
+        consultaFetch(endPoint)
             .then(movies => {
 
                 //mostrar trending day
-                const articleTrending = document.querySelector('.trendingPreview-movieList')
-                articleTrending.innerHTML='';
+                nodoHtml.innerHTML='';
 
                 movies.results.forEach(movie=>{
 
@@ -34,7 +33,7 @@ async function consultaFetch(url, params = ''){
                         
             `;
 
-                    articleTrending.innerHTML += HtmlMovieContainer;
+                    nodoHtml.innerHTML += HtmlMovieContainer;
 
 
                 });
@@ -45,9 +44,9 @@ async function consultaFetch(url, params = ''){
     }
 
 
-function RenderGenres (){
+function RenderGenresList (){
 
-    const API_URL_GENRE = 'https://api.themoviedb.org/3/genre/movie/list';
+    const API_URL_GENRE = '/genre/movie/list';
 
     consultaFetch(API_URL_GENRE)
         .then(data=>{
@@ -91,13 +90,12 @@ function searchCategory(a){
 
 
 
-function renderSearchMovies (prm){
+function renderGenresMovies (endPoint, prm){
     //borrar el contenedor
     genericSection.innerHTML = '';
 
-    const URL_FILTER_MOVIES = "https://api.themoviedb.org/3/discover/movie"
 
-    consultaFetch(URL_FILTER_MOVIES,prm).then(data=>{
+    consultaFetch(endPoint,prm).then(data=>{
 
       const movies = data.results;
 
@@ -129,5 +127,6 @@ function renderSearchMovies (prm){
 
 
 }
+
 
 
