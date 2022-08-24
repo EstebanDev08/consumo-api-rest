@@ -1,0 +1,22 @@
+{
+  "name": "consumo-api-rest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxsimus320/consumo-api-rest.git"
+  },
+  "author": "Esteban solarte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxsimus320/consumo-api-rest/issues"
+  },
+  "homepage": "https://github.com/maxsimus320/consumo-api-rest#readme",
+  "dependencies": {
+    "fetch": "^1.1.0"
+  }
+}
