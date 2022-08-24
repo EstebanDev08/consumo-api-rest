@@ -21,7 +21,7 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
-    location.hash = "#home";
+    history.back();
 });
 
 
@@ -46,7 +46,8 @@ function navigator() {
 
 function homePage() {
 
-    RenderTrendsDay(trendingMoviesPreviewList,'/trending/movie/day');
+    getRenderMovies('/trending/movie/day',``,trendingMoviesPreviewList)
+
     RenderGenresList();
 
     headerSection.classList.remove('header-container--long');
@@ -92,7 +93,9 @@ function categoriesPage() {
 
 
 
-    renderGenresMovies("/discover/movie",`&with_genres=${idGenre}`)
+
+    getRenderMovies('/discover/movie',`&with_genres=${idGenre}`,genericSection)
+
 
 }
 
@@ -109,6 +112,13 @@ function movieDetailsPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
+
+    const idMovie = location.hash.split('=')[1]
+        .split('-');
+
+    headerSection.style.background = '';
+    getRenderOneMovie(`/movie/${idMovie[0]}`);
+
 }
 
 function searchPage() {
@@ -130,7 +140,11 @@ function searchPage() {
     const urlHashSearch = location.hash.split('=')[1];
 
 
-    renderGenresMovies ('/search/movie',`&query=${urlHashSearch}`);
+
+
+
+//renderizamos peliculas por busqueda en el nodo genberico
+   getRenderMovies('/search/movie',`&query=${urlHashSearch}`,genericSection)
 }
 
 function trendsPage() {
@@ -151,7 +165,9 @@ function trendsPage() {
 
 
 
-    RenderTrendsDay(genericSection,'/trending/movie/day');
+
+
+    getRenderMovies('/trending/movie/day',null,genericSection)
 
 }
 

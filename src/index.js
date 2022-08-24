@@ -9,40 +9,6 @@ async function consultaFetch(endPoint, params = ''){
 
     }
 
-    function RenderTrendsDay(nodoHtml, endPoint){
-
-        const API_URL_TREND_DAY = '/trending/movie/day';
-
-        consultaFetch(endPoint)
-            .then(movies => {
-
-                //mostrar trending day
-                nodoHtml.innerHTML='';
-
-                movies.results.forEach(movie=>{
-
-                    const HtmlMovieContainer = `
-            
-                     <div class="movie-container">
-                        <img
-                              src="https://image.tmdb.org/t/p/w300/${movie.poster_path}"
-                              class="movie-img"
-                              alt="${movie.title}"
-                        />
-                     </div>
-                        
-            `;
-
-                    nodoHtml.innerHTML += HtmlMovieContainer;
-
-
-                });
-
-            });
-
-
-    }
-
 
 function RenderGenresList (){
 
@@ -52,9 +18,7 @@ function RenderGenresList (){
         .then(data=>{
 
             //mostrar categorias
-            const articleCategories = document.querySelector('.categoriesPreview-list')
-
-            articleCategories.innerHTML = '';
+            categoriesPreviewList.innerHTML = '';
             data.genres.forEach(genre=>{
 
                 const HtmlCategoriesList = `
@@ -68,15 +32,9 @@ function RenderGenresList (){
                </div>
                 
             `;
-
-                articleCategories.innerHTML += HtmlCategoriesList;
-
-
+                categoriesPreviewList.innerHTML += HtmlCategoriesList;
             });
         })
-
-
-
 
 }
 
@@ -87,46 +45,84 @@ function searchCategory(a){
     location.hash = `#genre=${a.replaceAll(' ',"-")}`;
 }
 
+//funcion para renderizar peliculas en pasandole el end point de la api parametros en caso de ser necesario
+function getRenderMovies(endPoint,prm , nodoHtml){
+    nodoHtml.innerHTML='';
+
+    consultaFetch(endPoint,prm)
+        .then(movies => {
 
 
+            movies.results.forEach(movie=>{
 
-function renderGenresMovies (endPoint, prm){
-    //borrar el contenedor
-    genericSection.innerHTML = '';
-
-
-    consultaFetch(endPoint,prm).then(data=>{
-
-      const movies = data.results;
-
-
-        movies.forEach(movie => {
-
-            //mostrar categorias
-
-
-            const HtmlListForGenre = `
+                const HtmlMovieContainer = `
             
-                    <div  class="movie-container">
-                      <img
-                                src="https://image.tmdb.org/t/p/w300${movie.poster_path}"
-                                class="movie-img"
-                                alt="${movie.title}"
-                      />
-                    </div>
-                
+                     <div class="movie-container"
+                     onClick="urlMovie('${movie.id}-${movie.title}')"
+                     >
+                        <img
+                              src="https://image.tmdb.org/t/p/w300/${movie.poster_path}"
+                              class="movie-img"
+                              alt="${movie.title}"
+                        />
+                     </div>
+                        
             `;
-                //es el elemento del dom donde se renderiza la img
-                genericSection.innerHTML += HtmlListForGenre;
 
+                nodoHtml.innerHTML += HtmlMovieContainer;
+
+            });
 
         });
 
-
-    })
-
-
 }
 
+function urlMovie(a){
+
+
+    location.hash = `#movie=${a.replaceAll(' ',"-")}`;
+}
+
+function getRenderOneMovie(endPoint,prm){
+
+
+    consultaFetch(endPoint,prm)
+        .then(movie => {
+
+            headerSection.style.background = `linear-gradient(180deg,
+             rgba(0, 0, 0, 0.35) 19.27%, 
+             rgba(0, 0, 0, 0) 29.17%),
+             url(https://image.tmdb.org/t/p/original${movie.poster_path})`
+
+            console.log(movie)
+
+            movieDetailTitle.textContent = movie.title;
+            movieDetailDescription.textContent = movie.overview;
+            movieDetailScore.textContent = movie.vote_average.toFixed(1);
+
+            const genresMovie = movie.genres;
+
+            movieDetailCategoriesList.innerHTML = '';
+
+            genresMovie.forEach(genre=>{
+
+                const HtmlListGenres = `
+                
+                  <div class="category-container">
+                     <h3 id="id${genre.id}" class="category-title">${genre.name}</h3>
+                  </div>           
+                  
+                `;
+
+                movieDetailCategoriesList.innerHTML += HtmlListGenres;
+
+            })
+
+
+            getRenderMovies(`${endPoint}/similar`,prm , relatedMoviesContainer);
+
+        });
+
+}
 
 
