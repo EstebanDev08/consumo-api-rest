@@ -5,7 +5,7 @@ async function consultaFetch(endPoint, params = ''){
     params = '' || params;
     const  res = await fetch(`https://api.themoviedb.org/3${endPoint}?api_key=${API_key}&language=es-co${params}`);
 
-    return   await res.json();
+    return   await res.json() ;
 
     }
 
@@ -46,8 +46,13 @@ function searchCategory(a){
 }
 
 //funcion para renderizar peliculas en pasandole el end point de la api parametros en caso de ser necesario
-function getRenderMovies(endPoint,prm , nodoHtml){
-    nodoHtml.innerHTML='';
+function getRenderMovies(endPoint,prm , nodoHtml , scrollInfinite = false){
+
+    if (!scrollInfinite){
+        nodoHtml.innerHTML='';
+
+    }
+
 
     consultaFetch(endPoint,prm)
         .then(movies => {
@@ -61,7 +66,7 @@ function getRenderMovies(endPoint,prm , nodoHtml){
                      onClick="urlMovie('${movie.id}-${movie.title}')"
                      >
                         <img
-                              src="https://image.tmdb.org/t/p/w300/${movie.poster_path}"
+                              src="https://image.tmdb.org/t/p/w300${movie.poster_path}"
                               class="movie-img"
                               alt="${movie.title}"
                         />
@@ -71,7 +76,10 @@ function getRenderMovies(endPoint,prm , nodoHtml){
 
                 nodoHtml.innerHTML += HtmlMovieContainer;
 
+
+
             });
+
 
         });
 
@@ -83,6 +91,7 @@ function urlMovie(a){
     location.hash = `#movie=${a.replaceAll(' ',"-")}`;
 }
 
+//solo obtiene los datos de una sola mlovie
 function getRenderOneMovie(endPoint,prm){
 
 
@@ -122,6 +131,65 @@ function getRenderOneMovie(endPoint,prm){
             getRenderMovies(`${endPoint}/similar`,prm , relatedMoviesContainer);
 
         });
+
+}
+
+
+function observerScroll (endPoint, node,prm = "") {
+    console.log("scroll")
+
+    let page = 2;
+
+    let ScrollPass =false;
+
+    let distanciaSroll;
+
+    let pages ;
+
+
+
+
+    return  async ()=>{
+
+
+
+        if ( (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight)  ) {
+
+
+            pages = await consultaFetch(endPoint,prm).then(movies => {
+
+                ScrollPass = true ;
+
+                return movies.total_pages;
+
+
+            })
+
+            console.log(distanciaSroll)
+
+
+
+            if (page <= pages && ScrollPass ) {
+
+
+
+               await getRenderMovies(endPoint, `&page=${page}${prm}`, node, true);
+
+                console.log(document.documentElement.scrollHeight)
+
+                page++;
+
+                ScrollPass = false;
+
+            }
+
+
+
+        }
+
+
+    }
+
 
 }
 

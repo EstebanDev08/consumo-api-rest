@@ -1,5 +1,5 @@
 
-
+let infiniteScroll;
 
 /* funcionalidades */
 
@@ -21,25 +21,50 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
+
+
+
     history.back();
+
+
 });
 
 
 window.addEventListener('DOMContentLoaded',navigator , false);
 window.addEventListener('hashchange',navigator , false);
+window.addEventListener('scroll',infiniteScroll,false);
 
 function navigator() {
+
+    if (infiniteScroll){
+
+       window.removeEventListener('scroll',infiniteScroll,false);
+        infiniteScroll=undefined;
+    }
+
     if (location.hash.startsWith("#trends")) {
         trendsPage();
+
     } else if (location.hash.startsWith("#search=")) {
         searchPage();
+
     } else if (location.hash.startsWith("#movie=")) {
         movieDetailsPage();
+
     } else if (location.hash.startsWith("#genre=")) {
         categoriesPage();
+
     } else {
         homePage();
+
     }
+
+    if (infiniteScroll){
+
+        window.addEventListener('scroll',infiniteScroll,false)
+
+    }
+
 }
 
 
@@ -61,6 +86,9 @@ function homePage() {
     categoriesPreviewSection.classList.remove('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
+
+
+
 
 
 }
@@ -95,6 +123,8 @@ function categoriesPage() {
 
 
     getRenderMovies('/discover/movie',`&with_genres=${idGenre}`,genericSection)
+
+    infiniteScroll =  observerScroll('/discover/movie',genericSection,`&with_genres=${idGenre}` );
 
 
 }
@@ -145,6 +175,10 @@ function searchPage() {
 
 //renderizamos peliculas por busqueda en el nodo genberico
    getRenderMovies('/search/movie',`&query=${urlHashSearch}`,genericSection)
+
+   infiniteScroll =  observerScroll('/search/movie',genericSection,`&query=${urlHashSearch}`);
+
+
 }
 
 function trendsPage() {
@@ -167,7 +201,11 @@ function trendsPage() {
 
 
 
-    getRenderMovies('/trending/movie/day',null,genericSection)
+    getRenderMovies('/trending/movie/day',null,genericSection,true);
+
+
+     infiniteScroll =  observerScroll('/trending/movie/day',genericSection);
+
 
 }
 
