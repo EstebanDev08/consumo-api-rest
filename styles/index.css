@@ -30,7 +30,7 @@ a{
 }
 
 html {
-    background-color: var(--purple-medium-3);
+  /* background-color: var(--purple-medium-3); */
 }
 
 body {
@@ -112,13 +112,13 @@ button {
 .movie-img {
     border-radius: 8px;
 }
-
 .categoriesPreview-list, .categories-list {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
+
+    display: grid;
     flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, 150px);
+    justify-content: space-between;
+    justify-items: center;
 }
 
 
@@ -159,6 +159,7 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 400px;
     flex-wrap: nowrap;
 }
 
@@ -215,7 +216,7 @@ button {
 
 /* Categories */
 .category-container {
-    width: 45%;
+    width: 100%;
 }
 
 .category-title {
@@ -258,18 +259,18 @@ button {
 
 
 /* Generic List (search, trending & category) */
+
 .genericList-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
+    justify-content: space-around;
     padding: 32px 24px;
+    gap: 16px;
+
 }
 
-.genericList-container .movie-container {
-    display: inline-block;
-    width: 47.5%;
-}
+
+
 
 .genericList-container .movie-img {
     width: 100%;
@@ -359,4 +360,8 @@ footer {
 /* Navigation */
 .inactive {
     display: none;
+}
+
+@media  {
+    
 }
