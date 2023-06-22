@@ -10,7 +10,7 @@ Este proyecto es una página web que consume un API para mostrar información so
 ## Uso
 
 - Abre la página en tu navegador [Aqui](https://movies-db-estebandev.netlify.app/).
-  ([https://ibb.co/2v1Vj2h](https://i.ibb.co/PcvX5pj/Screenshot-2023-06-22-151101.png))
+  (https://i.ibb.co/PcvX5pj/Screenshot-2023-06-22-151101.png)
 - Utiliza la barra de búsqueda para buscar películas por título.
   (https://ibb.co/c2qfSGZ)
 - Utiliza los filtros de categoría para filtrar las películas por género.
