@@ -1,7 +1,7 @@
 # Proyecto de Películas
 
 Este proyecto es una página web que consume un API para mostrar información sobre películas. Permite filtrar las películas por categoría, realizar búsquedas y también ofrece una funcionalidad de scroll infinito para cargar más contenido de forma dinámica.
-
+![](https://i.ibb.co/C58PnH9/Screenshot-2023-06-22-153007.png)
 ## Instalación
 
 1. Clona el repositorio en tu máquina local.
@@ -10,14 +10,13 @@ Este proyecto es una página web que consume un API para mostrar información so
 ## Uso
 
 - Abre la página en tu navegador [Aqui](https://movies-db-estebandev.netlify.app/).
-  ![a](https://i.ibb.co/PcvX5pj/Screenshot-2023-06-22-151101.png)
 - Utiliza la barra de búsqueda para buscar películas por título.
-  (https://ibb.co/c2qfSGZ)
+![](https://i.ibb.co/qm6q3tc/Screenshot-2023-06-22-150728.png)
+
 - Utiliza los filtros de categoría para filtrar las películas por género.
-  (https://ibb.co/S6kTDpq)
 - Desplázate hacia abajo para cargar más películas automáticamente.
 - Haz clic en la película que te interese para abrir sus detalles y calificación.
-  (https://ibb.co/2v1Vj2h)
+  ![](https://i.ibb.co/PcvX5pj/Screenshot-2023-06-22-151101.png)
 
 ## Contribución
 
